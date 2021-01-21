@@ -82,6 +82,14 @@ def plot_radar(percentages, variables, teams):
 
 
 def plot_bars(percentages, variables, teams):
+    print(percentages)
+    print(variables)
+    fig = plt.figure()
+    ax = fig.add_axes([0,0,1,1])
+    langs = ['C', 'C++', 'Java', 'Python', 'PHP']
+    students = [23,17,35,29,12]
+    ax.bar(langs,students)
+    plt.show()
     pass
 
 
