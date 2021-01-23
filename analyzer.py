@@ -12,7 +12,7 @@ from math import pi
 CSV_URI = 'https://srv-store2.gofile.io/download/9V3H6X/league_stats.zip'
 ZIP_FILENAME = 'league_stats.zip'
 CSV_DIR = 'datas'
-PLOT_TYPES = ['radar', 'bar']
+PLOT_TYPES = ['radar', 'bar', 'scatter']
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
@@ -57,7 +57,7 @@ def get_percentages(stats):
     return perc
 
 
-def plot_radar(percentages, variables, teams):
+def plot_radar(percentages, variables, teams, stats):
     T = len(percentages)
     V = len(percentages[0])
     angles = [v / float(V) * 2 *
@@ -81,7 +81,7 @@ def plot_radar(percentages, variables, teams):
     plt.savefig(OUTPUT_PATH)
 
 
-def plot_bars(percentages, variables, teams):
+def plot_bars(percentages, variables, teams, stats):
     T = len(percentages)
     labels = variables
     blueTeam = percentages[0]
@@ -96,9 +96,12 @@ def plot_bars(percentages, variables, teams):
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(len(variables) * 2, 10.5)
     plt.savefig(OUTPUT_PATH)
 
+
+def plot_scatter(percentages, variables, teams, stats):
+    pass
 
 if args.gen_datas:
     print('Downloading datasets ...')
@@ -132,6 +135,10 @@ for label in csv.columns:
         teams.append(label)
     elif 'First' in label:
         variables.append(label)
+    # elif 'blueKills' in label:
+    #     variables.append(label)
+    # elif 'redKills' in label:
+    #     variables.append(label)
 
 print('Reordering stats ...')
 stats = get_raw_stats(teams, variables, csv)
@@ -140,8 +147,9 @@ perc = get_percentages(stats)
 
 ploters = {
     PLOT_TYPES[0]: plot_radar,
-    PLOT_TYPES[1]: plot_bars
+    PLOT_TYPES[1]: plot_bars,
+    PLOT_TYPES[2]: plot_scatter
 }
 print('Plotting ...')
-ploters[args.ploting](perc, variables, teams)
+ploters[args.ploting](perc, variables, teams, stats)
 print('Done')
