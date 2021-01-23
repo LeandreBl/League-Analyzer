@@ -82,13 +82,25 @@ def plot_radar(percentages, variables, teams):
 
 
 def plot_bars(percentages, variables, teams):
-    print(percentages)
-    print(variables)
-    fig = plt.figure()
-    ax = fig.add_axes([0,0,1,1])
-    langs = ['C', 'C++', 'Java', 'Python', 'PHP']
-    students = [23,17,35,29,12]
-    ax.bar(langs,students)
+    labels = variables
+    men_means = percentages[0]
+    women_means = percentages[1]
+
+    x = np.arange(len(labels))  # the label locations
+    width = 0.35  # the width of the bars
+
+    print(teams)
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - width/2, men_means, width, color='b', label=teams[0])
+    rects2 = ax.bar(x + width/2, women_means, width, color='r', label=teams[1])
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Scores')
+    ax.set_title('Scores by group and gender')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+    fig.tight_layout()
     plt.show()
     pass
 
