@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import pi
 
-CSV_URI = 'https://storage.googleapis.com/kaggle-data-sets/610763/1096497/bundle/archive.zip?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=gcp-kaggle-com%40kaggle-161607.iam.gserviceaccount.com%2F20210114%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20210114T154656Z&X-Goog-Expires=259199&X-Goog-SignedHeaders=host&X-Goog-Signature=6949899d99717328c6298f9fdb3241114c6f0fd683c40946c1d0a2cfedb9518bc203d5ae621e43546c247a4c50e42f51a20720f96979a44759cd59fc68256e50240310e22893d28bebe4af1e3588b83f324c19a01cb1a62fa97172ef3a0cff2944356f9f2058066a9df7cb7719219bdb6abfed94cec78a4e7e9a8d31df2eaa68730f7a60d656fa618dd71f734d1be4c9e21cac67f14c11b0dca1188645f9e2272edd08029f0278becf1b6b1918618b3fd887f8ced9ed900be51d5995f6d49c30ae4fddf03473f84e226c7d98a622c8f21e466d90df9d974de2129ad24e6d631a8df567d14eee17f5e7238d9d5d36d9dc2629a70902fcd74a31cb7d099842b427'
+CSV_URI = 'https://download1589.mediafire.com/b1muvabo0tgg/3srr8vigc5jh2o5/archive.zip'
 ZIP_FILENAME = 'league_stats.zip'
 CSV_DIR = 'datas'
 PLOT_TYPES = ['radar', 'bar']
@@ -86,14 +86,17 @@ def plot_bars(percentages, variables, teams):
 
 
 if args.gen_datas:
+    print('Downloading datasets ...')
     r = requests.get(CSV_URI)
     if r.status_code == 200:
         if os.path.exists(CSV_DIR) == False:
             os.mkdir(CSV_DIR)
         path = os.path.join(CSV_DIR, ZIP_FILENAME)
         open(path, 'wb').write(r.content)
+        print('Unzipping ...')
         os.system(f'unzip {path} -d {CSV_DIR}')
         os.remove(path)
+        print('Done')
     else:
         print("Failed to retrieve data")
         exit(1)
@@ -115,12 +118,15 @@ for label in csv.columns:
     elif 'First' in label:
         variables.append(label)
 
+print('Reordering stats ...')
 stats = get_raw_stats(teams, variables, csv)
+print('Analyzing percentages ...')
 perc = get_percentages(stats)
 
 ploters = {
     PLOT_TYPES[0]: plot_radar,
     PLOT_TYPES[1]: plot_bars
 }
-
+print('Plotting ...')
 ploters[args.ploting](perc, variables, teams)
+print('Done')
