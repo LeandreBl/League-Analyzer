@@ -89,8 +89,8 @@ def plot_bars(percentages, variables, teams):
     x = np.arange(len(labels))  # the label locations
     width = 0.35  # the width of the bars
     fig, ax = plt.subplots()
-    rects1 = ax.bar(x - width/2, blueTeam, width, color='b', label=teams[0])
-    rects2 = ax.bar(x + width/2, redTeam, width, color='r', label=teams[1])
+    rects1 = ax.bar(x - width/2, blueTeam, width, label=teams[0])
+    rects2 = ax.bar(x + width/2, redTeam, width, label=teams[1])
     ax.set_ylabel('Percentage')
     ax.set_title('Percentage of win compared to some stats')
     ax.set_xticks(x)
