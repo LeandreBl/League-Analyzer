@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import pi
 
-CSV_URI = 'https://download1589.mediafire.com/b1muvabo0tgg/3srr8vigc5jh2o5/archive.zip'
+CSV_URI = 'https://srv-store2.gofile.io/download/9V3H6X/league_stats.zip'
 ZIP_FILENAME = 'league_stats.zip'
 CSV_DIR = 'datas'
 PLOT_TYPES = ['radar', 'bar']
